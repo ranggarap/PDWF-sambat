@@ -1,0 +1,161 @@
+/* css/style.css */
+
+/* --- TEMA TERANG (LIGHT MODE) --- */
+:root {
+    --bg-primary: #f1f5f9; /* Slate 100 */
+    --bg-secondary: #ffffff;
+    --bg-card: rgba(255, 255, 255, 0.85);
+    --border-color: rgba(15, 23, 42, 0.08); /* Slate 900 dengan opacity */
+    --text-primary: #0f172a; /* Slate 900 */
+    --text-secondary: #475569; /* Slate 600 */
+    --text-muted: #94a3b8; /* Slate 400 */
+    --accent-red: #ef4444; /* Red 500 */
+    --accent-red-hover: #dc2626; /* Red 600 */
+    --accent-red-light: rgba(239, 68, 68, 0.06);
+    --sidebar-active-bg: rgba(15, 23, 42, 0.04);
+    --sidebar-hover-bg: rgba(15, 23, 42, 0.02);
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.06), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+    --input-bg: rgba(15, 23, 42, 0.015);
+    --input-focus-bg: #ffffff;
+    --chat-bubble-me: #ef4444;
+    --chat-bubble-other: rgba(15, 23, 42, 0.04);
+}
+
+/* --- TEMA GELAP (DARK MODE) --- */
+html.dark {
+    --bg-primary: #08080C; /* Background gelap khas Sambat */
+    --bg-secondary: #0F0F14;
+    --bg-card: rgba(255, 255, 255, 0.02);
+    --border-color: rgba(255, 255, 255, 0.06);
+    --text-primary: #f9fafb; /* Gray 50 */
+    --text-secondary: #9ca3af; /* Gray 400 */
+    --text-muted: #6b7280; /* Gray 500 */
+    --accent-red: #ef4444;
+    --accent-red-hover: #dc2626;
+    --accent-red-light: rgba(239, 68, 68, 0.08);
+    --sidebar-active-bg: rgba(255, 255, 255, 0.03);
+    --sidebar-hover-bg: rgba(255, 255, 255, 0.015);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+    --input-bg: rgba(255, 255, 255, 0.03);
+    --input-focus-bg: rgba(255, 255, 255, 0.05);
+    --chat-bubble-me: #ef4444;
+    --chat-bubble-other: rgba(255, 255, 255, 0.03);
+}
+
+/* --- BASE STYLES --- */
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    min-height: 100vh;
+}
+
+body.sambat-body {
+    background-image: radial-gradient(circle at top left, rgba(239, 68, 68, 0.03), transparent 45%),
+                      radial-gradient(circle at bottom right, rgba(244, 63, 94, 0.015), transparent 455);
+}
+
+html.dark body.sambat-body {
+    background-image: radial-gradient(circle at top left, rgba(239, 68, 68, 0.05), transparent 45%),
+                      radial-gradient(circle at bottom right, rgba(244, 63, 94, 0.03), transparent 45%);
+}
+
+/* --- GLASS CARD SYSTEM --- */
+.sambat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sambat-card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+/* --- SEMANTIC TEXTS --- */
+.sambat-text-primary {
+    color: var(--text-primary) !important;
+}
+
+.sambat-text-secondary {
+    color: var(--text-secondary) !important;
+}
+
+.sambat-text-muted {
+    color: var(--text-muted) !important;
+}
+
+/* --- SEMANTIC BORDERS --- */
+.sambat-border {
+    border-color: var(--border-color) !important;
+}
+
+/* --- INPUTS & TEXTAREAS --- */
+.sambat-input {
+    background-color: var(--input-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+    transition: all 0.3s ease;
+}
+
+.sambat-input:focus {
+    border-color: var(--accent-red) !important;
+    background-color: var(--input-focus-bg) !important;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+}
+
+/* --- SIDEBAR LINKS --- */
+.sambat-sidebar-link {
+    color: var(--text-secondary) !important;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.sambat-sidebar-link:hover {
+    color: var(--text-primary) !important;
+    background-color: var(--sidebar-hover-bg) !important;
+    border-color: var(--border-color) !important;
+}
+
+.sambat-sidebar-link.active {
+    color: var(--accent-red) !important;
+    background-color: var(--sidebar-active-bg) !important;
+    border-color: var(--border-color) !important;
+    font-weight: 700;
+}
+
+/* --- CHAT BUBBLES --- */
+.sambat-chat-me {
+    background-color: var(--chat-bubble-me) !important;
+    color: #ffffff !important;
+}
+
+.sambat-chat-other {
+    background-color: var(--chat-bubble-other) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+}
+
+/* --- SCROLLBAR --- */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(120, 120, 120, 0.2);
+    border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(120, 120, 120, 0.4);
+}
