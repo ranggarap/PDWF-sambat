@@ -1,0 +1,58 @@
+@startuml
+title Activity Diagram - Aplikasi Sambat (Alur Simpel & Moderasi)
+
+start
+
+:Buka Halaman Sambat;
+:Inisialisasi Tema (Light/Dark) via js/theme.js;
+
+if (Session Aktif?) then (tidak)
+  :Tampilkan Halaman Login;
+  :Input username & password;
+  if (Valid?) then (ya)
+    :Set Session & Redirect;
+  else (tidak)
+    :Tampilkan Error;
+    stop
+  endif
+endif
+
+:Tampilkan Feed Utama (index.php);
+
+fork
+  :Buat Sambatan Baru (Teks + Foto);
+  :Simpan ke DB & Upload file gambar;
+  :Refresh Feed;
+fork again
+  :Like / Unlike Postingan;
+  :Fetch AJAX ke actions/like_action.php;
+  :Update status & counter secara dinamis;
+fork again
+  :Tulis Komentar;
+  :Simpan ke DB;
+  :Refresh Halaman;
+fork again
+  :Hapus Post / Komentar;
+  if (Apakah Milik Sendiri ATAU Admin?) then (ya)
+    :Kirim POST ke delete_post.php / delete_comment.php;
+    :Hapus data dari database;
+    if (Ada file gambar post) then (ya)
+      :Hapus file gambar dari server;
+    endif
+    :Refresh Halaman;
+  else (tidak)
+    :Tombol hapus tidak ditampilkan;
+  endif
+fork again
+  :Ganti Tema Halaman (Light/Dark);
+  :Klik tombol "Ganti Tema";
+  :Toggle class .dark di HTML & simpan ke localStorage;
+fork again
+  if (Admin membuka panel?) then (ya)
+    :Masuk ke Halaman Admin;
+    :Kelola Pengguna / Moderasi Konten;
+  endif
+end fork
+
+stop
+@enduml

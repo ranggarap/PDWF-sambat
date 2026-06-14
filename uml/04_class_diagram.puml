@@ -1,0 +1,96 @@
+@startuml
+title Class Diagram - Aplikasi Sambat
+
+class Database {
+  - host : String
+  - dbname : String
+  - username : String
+  - password : String
+  + connect() : PDO
+}
+
+class Helper {
+  + {static} timeAgo(timestamp) : String
+  + {static} getAvatarUrl(username, avatar_path) : String
+  + {static} sanitize(input) : String
+}
+
+class User {
+  + id : int
+  + username : String
+  + email : String
+  + password : String
+  + full_name : String
+  + avatar_path : String
+  + bio : String
+  + birthdate : Date
+  + is_admin : int
+  + created_at : Timestamp
+  + register() : bool
+  + login() : bool
+  + logout() : void
+  + updateProfile() : bool
+}
+
+class Post {
+  + id : int
+  + user_id : int
+  + content_text : String
+  + image_path : String
+  + created_at : Timestamp
+  + create() : bool
+  + delete(post_id, user_id, is_admin) : bool
+}
+
+class Comment {
+  + id : int
+  + post_id : int
+  + user_id : int
+  + comment_text : String
+  + created_at : Timestamp
+  + add() : bool
+  + delete(comment_id, user_id, is_admin) : bool
+}
+
+class Like {
+  + id : int
+  + post_id : int
+  + user_id : int
+  + created_at : Timestamp
+  + toggle() : array
+}
+
+class Follow {
+  + id : int
+  + follower_id : int
+  + following_id : int
+  + created_at : Timestamp
+  + toggle() : bool
+}
+
+class Message {
+  + id : int
+  + sender_id : int
+  + receiver_id : int
+  + message_text : String
+  + created_at : Timestamp
+  + send() : bool
+}
+
+User "1" -- "0..*" Post : membuat
+User "1" -- "0..*" Like : memberi
+User "1" -- "0..*" Comment : menulis
+User "1" -- "0..*" Follow : memfollow/di-follow
+User "1" -- "0..*" Message : mengirim/menerima
+
+Post "1" -- "0..*" Like : mendapat
+Post "1" -- "0..*" Comment : memiliki
+
+Database ..> User : koneksi
+Database ..> Post : koneksi
+Database ..> Like : koneksi
+Database ..> Comment : koneksi
+Database ..> Follow : koneksi
+Database ..> Message : koneksi
+
+@enduml

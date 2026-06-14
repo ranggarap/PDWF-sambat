@@ -1,0 +1,51 @@
+@startuml
+title Architecture Diagram - Aplikasi Sambat
+
+node "Client Side (Browser)" {
+  [Tailwind CSS (UI Framework)] as UI
+  [css/style.css (Kustom Tema & Scrollbar)] as CSS
+  [js/theme.js (Deteksi & Toggle Tema)] as ThemeJS
+}
+
+node "Server Side (PHP)" {
+  [Halaman Utama (index.php, profile.php, dll)] as Pages
+  [Handler Hapus Post (delete_post.php)] as DelPost
+  [Handler Hapus Komen (delete_comment.php)] as DelCmt
+  [Handler Actions Lain (post_action.php, dll)] as Actions
+  [Config Database (db.php)] as Config
+}
+
+node "Penyimpanan Server" {
+  folder "uploads/avatars/" as Avatars
+  folder "uploads/posts/" as Posts
+}
+
+database "MySQL Database" {
+  [Tabel users] as TUsers
+  [Tabel posts] as TPosts
+  [Tabel comments] as TComments
+  [Tabel likes] as TLikes
+  [Tabel follows] as TFollows
+  [Tabel messages] as TMessages
+}
+
+Pages --> CSS : Link
+Pages --> ThemeJS : Load
+Pages --> Config : Require
+
+DelPost --> Config : Require
+DelCmt --> Config : Require
+Actions --> Config : Require
+
+Config --> TUsers : Query
+Config --> TPosts : Query
+Config --> TComments : Query
+Config --> TLikes : Query
+Config --> TFollows : Query
+Config --> TMessages : Query
+
+Actions --> Posts : Simpan gambar postingan
+Actions --> Avatars : Simpan avatar profil
+DelPost --> Posts : Hapus file gambar jika ada
+
+@enduml

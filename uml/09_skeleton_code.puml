@@ -1,0 +1,86 @@
+@startuml
+title Skeleton Code - Aplikasi Sambat
+
+package "Config" {
+  class "db.php" as DBConfig {
+    + $pdo : PDO
+    + timeAgo($timestamp) : String
+  }
+}
+
+package "Pages (Views)" {
+  class "login.php" as PageLogin {
+    - Form username & password
+    - handle POST login
+  }
+  class "register.php" as PageRegister {
+    - Form username, email & password
+    - handle POST register
+  }
+  class "index.php" as PageFeed {
+    - Tampilkan post
+    - Form post baru
+    - include db.php
+  }
+  class "profile.php" as PageProfile {
+    - Informasi user
+    - Form / Modal Edit profil
+  }
+  class "messages.php" as PageMessages {
+    - Tampilan chat/pesan
+  }
+  class "activity.php" as PageActivity {
+    - Tampilan aktivitas & notifikasi
+  }
+  class "search.php" as PageSearch {
+    - Tampilan cari postingan & user
+  }
+}
+
+package "Actions (Controllers)" {
+  class "post_action.php" as ActPost {
+    - Validasi & upload gambar
+    - Simpan postingan baru
+  }
+  class "like_action.php" as ActLike {
+    - AJAX endpoint untuk toggle like
+  }
+  class "comment_action.php" as ActComment {
+    - Simpan komentar baru
+  }
+  class "follow_action.php" as ActFollow {
+    - Toggle status follow
+  }
+  class "edit_profile.php" as ActEditProfile {
+    - Update bio & avatar
+  }
+}
+
+package "Admin" {
+  class "admin_dashboard.php" as AdminDash {
+    - Lihat list user
+    - Hapus user
+    - Hapus postingan
+  }
+}
+
+PageFeed --> DBConfig : include
+PageProfile --> DBConfig : include
+PageSearch --> DBConfig : include
+PageMessages --> DBConfig : include
+PageActivity --> DBConfig : include
+
+PageFeed --> ActPost : Form Action
+PageFeed --> ActLike : Fetch AJAX
+PageFeed --> ActComment : Form Action
+PageFeed --> ActFollow : Form Action
+PageProfile --> ActEditProfile : Form Action
+
+ActPost --> DBConfig : include
+ActLike --> DBConfig : include
+ActComment --> DBConfig : include
+ActFollow --> DBConfig : include
+ActEditProfile --> DBConfig : include
+AdminDash --> DBConfig : include
+
+@enduml

@@ -1,0 +1,36 @@
+@startuml
+title Sequence Diagram (Alur Like dan Buat Post) - Aplikasi Sambat
+
+actor User
+participant "Browser / Frontend" as FE
+participant "post_action.php" as PostAct
+participant "like_action.php" as LikeAct
+database "MySQL Database" as DB
+
+== Skenario A: Membuat Postingan Baru ==
+User -> FE : Tulis sambatan & klik "Sembur"
+FE -> PostAct : POST (content_text, file_gambar)
+PostAct -> DB : INSERT INTO posts
+DB --> PostAct : Success / OK
+PostAct -> FE : Redirect ke index.php
+FE -> User : Tampilkan feed dengan post baru
+
+== Skenario B: Like / Unlike Sambatan (AJAX) ==
+User -> FE : Klik tombol Like (ikon hati)
+FE -> LikeAct : Fetch API POST (post_id) (tanpa reload)
+LikeAct -> DB : SELECT from likes WHERE post_id & user_id
+DB --> LikeAct : Data ditemukan/tidak
+
+alt Sudah pernah like
+    LikeAct -> DB : DELETE FROM likes
+else Belum pernah like
+    LikeAct -> DB : INSERT INTO likes
+end
+DB --> LikeAct : Success / OK
+
+LikeAct -> DB : SELECT COUNT(*) FROM likes WHERE post_id
+DB --> LikeAct : total_likes
+LikeAct --> FE : JSON { status: "success", action: "liked/unliked", total: N }
+FE -> User : Update status ikon hati & angka like
+
+@enduml

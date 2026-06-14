@@ -1,0 +1,71 @@
+@startuml
+title Resume Class, Attribute, dan Operation - Aplikasi Sambat
+
+class User {
+  - id : int
+  - username : String
+  - email : String
+  - password : String
+  - full_name : String
+  - avatar_path : String
+  - bio : String
+  - birthdate : Date
+  - is_admin : int
+  - created_at : Timestamp
+  + register(username, email, password) : bool
+  + login(username, password) : bool
+  + logout() : void
+  + updateProfile(full_name, bio, birthdate, avatar_file) : bool
+  + getAvatarUrl() : String
+}
+
+class Post {
+  - id : int
+  - user_id : int
+  - content_text : String
+  - image_path : String
+  - created_at : Timestamp
+  + create(user_id, content_text, image_file) : bool
+  + delete(post_id) : bool
+  + getFeedPosts(user_id) : array
+}
+
+class Like {
+  - id : int
+  - post_id : int
+  - user_id : int
+  - created_at : Timestamp
+  + toggle(post_id, user_id) : array
+  + getLikeCount(post_id) : int
+}
+
+class Comment {
+  - id : int
+  - post_id : int
+  - user_id : int
+  - comment_text : String
+  - created_at : Timestamp
+  + add(post_id, user_id, comment_text) : bool
+  + getCommentsByPost(post_id) : array
+}
+
+class Follow {
+  - id : int
+  - follower_id : int
+  - following_id : int
+  - created_at : Timestamp
+  + toggle(follower_id, following_id) : bool
+  + getFollowStatus(follower_id, following_id) : bool
+}
+
+class Message {
+  - id : int
+  - sender_id : int
+  - receiver_id : int
+  - message_text : String
+  - created_at : Timestamp
+  + send(sender_id, receiver_id, message_text) : bool
+  + getChatHistory(user1_id, user2_id) : array
+}
+
+@enduml

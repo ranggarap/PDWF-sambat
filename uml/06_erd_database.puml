@@ -1,0 +1,70 @@
+@startuml
+title Entity Relationship Diagram (ERD) - Aplikasi Sambat
+
+entity "users" {
+  * id : INT (PK)
+  --
+  * username : VARCHAR(50)
+  * email : VARCHAR(100)
+  * password : VARCHAR(255)
+  full_name : VARCHAR(100)
+  avatar_path : VARCHAR(255)
+  bio : TEXT
+  birthdate : DATE
+  * is_admin : TINYINT(1)
+  * created_at : TIMESTAMP
+}
+
+entity "posts" {
+  * id : INT (PK)
+  --
+  * user_id : INT (FK)
+  * content_text : TEXT
+  image_path : VARCHAR(255)
+  * created_at : TIMESTAMP
+}
+
+entity "likes" {
+  * id : INT (PK)
+  --
+  * post_id : INT (FK)
+  * user_id : INT (FK)
+  * created_at : TIMESTAMP
+}
+
+entity "comments" {
+  * id : INT (PK)
+  --
+  * post_id : INT (FK)
+  * user_id : INT (FK)
+  * comment_text : TEXT
+  * created_at : TIMESTAMP
+}
+
+entity "follows" {
+  * id : INT (PK)
+  --
+  * follower_id : INT (FK)
+  * following_id : INT (FK)
+  * created_at : TIMESTAMP
+}
+
+entity "messages" {
+  * id : INT (PK)
+  --
+  * sender_id : INT (FK)
+  * receiver_id : INT (FK)
+  * message_text : TEXT
+  * created_at : TIMESTAMP
+}
+
+users ||--o{ posts : "membuat"
+users ||--o{ likes : "menyukai"
+users ||--o{ comments : "menulis"
+users ||--o{ follows : "mengikuti / diikuti"
+users ||--o{ messages : "mengirim / menerima"
+
+posts ||--o{ likes : "disukai"
+posts ||--o{ comments : "dikomentari"
+
+@enduml

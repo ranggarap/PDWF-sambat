@@ -1,0 +1,77 @@
+@startuml
+title Use Case Diagram - Aplikasi Sambat
+
+actor "User" as U
+actor "Admin" as A
+actor "Database MySQL" as DB
+
+rectangle "Sistem Sambat" {
+
+  package "Autentikasi" {
+    usecase "Daftar Akun (Register)" as UC_Reg
+    usecase "Masuk Akun (Login)" as UC_Log
+    usecase "Keluar Akun (Logout)" as UC_Out
+  }
+
+  package "Fitur Utama Pengguna" {
+    usecase "Buat Post (Sambatan)" as UC_Post
+    usecase "Upload Lampiran Foto" as UC_UploadPhoto
+    usecase "Tulis Komentar" as UC_Comment
+    usecase "Hapus Komentar Sendiri" as UC_DelCommentOwn
+    usecase "Hapus Post Sendiri" as UC_DelPostOwn
+    usecase "Like / Unlike Post" as UC_Like
+    usecase "Cari User & Post" as UC_Search
+    usecase "Kirim Pesan Privat (Chat)" as UC_Chat
+  }
+
+  package "Profil & Fitur Tambahan" {
+    usecase "Lihat Profil & Riwayat" as UC_Profile
+    usecase "Edit Biodata & Avatar" as UC_EditProfile
+    usecase "Ikuti Pengguna (Follow)" as UC_Follow
+    usecase "Lihat Trending Posts" as UC_Trending
+    usecase "Ganti Tema (Light/Dark)" as UC_Theme
+  }
+
+  package "Administrasi & Moderasi" {
+    usecase "Akses Dashboard Admin" as UC_AdminDash
+    usecase "Kelola User (Banned / Ubah Peran)" as UC_ManageUser
+    usecase "Hapus Post Apapun" as UC_DelPostAdmin
+    usecase "Hapus Komentar Apapun" as UC_DelCommentAdmin
+  }
+}
+
+U --> UC_Reg
+U --> UC_Log
+U --> UC_Out
+U --> UC_Post
+U --> UC_Comment
+U --> UC_DelCommentOwn
+U --> UC_DelPostOwn
+U --> UC_Like
+U --> UC_Search
+U --> UC_Chat
+U --> UC_Profile
+U --> UC_EditProfile
+U --> UC_Follow
+U --> UC_Trending
+U --> UC_Theme
+
+A --> UC_Log
+A --> UC_Out
+A --> UC_AdminDash
+A --> UC_ManageUser
+A --> UC_DelPostAdmin
+A --> UC_DelCommentAdmin
+
+UC_Post ..> UC_UploadPhoto : <<extend>>
+UC_EditProfile ..> UC_Theme : <<extend>>
+
+DB <.. UC_Log : <<uses>>
+DB <.. UC_Post : <<uses>>
+DB <.. UC_Comment : <<uses>>
+DB <.. UC_Like : <<uses>>
+DB <.. UC_ManageUser : <<uses>>
+DB <.. UC_DelPostAdmin : <<uses>>
+DB <.. UC_DelCommentAdmin : <<uses>>
+
+@enduml

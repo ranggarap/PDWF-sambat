@@ -1,0 +1,118 @@
+@startuml
+title Mapping Table (Class to Table) - Aplikasi Sambat
+
+class "Class: User" as CUser {
+  id : int
+  username : String
+  email : String
+  password : String
+  full_name : String
+  avatar_path : String
+  bio : String
+  birthdate : Date
+  is_admin : int
+  created_at : Timestamp
+}
+
+class "Table: users" as TUser {
+  id INT (PK)
+  username VARCHAR(50)
+  email VARCHAR(100)
+  password VARCHAR(255)
+  full_name VARCHAR(100)
+  avatar_path VARCHAR(255)
+  bio TEXT
+  birthdate DATE
+  is_admin TINYINT(1)
+  created_at TIMESTAMP
+}
+
+CUser .. TUser : <<maps to>>
+
+class "Class: Post" as CPost {
+  id : int
+  user_id : int
+  content_text : String
+  image_path : String
+  created_at : Timestamp
+}
+
+class "Table: posts" as TPost {
+  id INT (PK)
+  user_id INT (FK)
+  content_text TEXT
+  image_path VARCHAR(255)
+  created_at TIMESTAMP
+}
+
+CPost .. TPost : <<maps to>>
+
+class "Class: Like" as CLike {
+  id : int
+  post_id : int
+  user_id : int
+  created_at : Timestamp
+}
+
+class "Table: likes" as TLike {
+  id INT (PK)
+  post_id INT (FK)
+  user_id INT (FK)
+  created_at TIMESTAMP
+}
+
+CLike .. TLike : <<maps to>>
+
+class "Class: Comment" as CComment {
+  id : int
+  post_id : int
+  user_id : int
+  comment_text : String
+  created_at : Timestamp
+}
+
+class "Table: comments" as TComment {
+  id INT (PK)
+  post_id INT (FK)
+  user_id INT (FK)
+  comment_text TEXT
+  created_at TIMESTAMP
+}
+
+CComment .. TComment : <<maps to>>
+
+class "Class: Follow" as CFollow {
+  id : int
+  follower_id : int
+  following_id : int
+  created_at : Timestamp
+}
+
+class "Table: follows" as TFollow {
+  id INT (PK)
+  follower_id INT (FK)
+  following_id INT (FK)
+  created_at TIMESTAMP
+}
+
+CFollow .. TFollow : <<maps to>>
+
+class "Class: Message" as CMessage {
+  id : int
+  sender_id : int
+  receiver_id : int
+  message_text : String
+  created_at : Timestamp
+}
+
+class "Table: messages" as TMessage {
+  id INT (PK)
+  sender_id INT (FK)
+  receiver_id INT (FK)
+  message_text TEXT
+  created_at TIMESTAMP
+}
+
+CMessage .. TMessage : <<maps to>>
+
+@enduml
